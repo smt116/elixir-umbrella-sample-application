@@ -13,6 +13,16 @@ defmodule Core.Feed.Post do
 
   @type t :: %__MODULE__{}
 
+  @derive {
+    Poison.Encoder,
+    only: [
+      :id,
+      :inserted_at,
+      :text,
+      :user,
+      :updated_at
+    ]
+  }
   schema "posts" do
     field(:text, :string)
 

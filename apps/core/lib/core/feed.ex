@@ -19,5 +19,9 @@ defmodule Core.Feed do
   end
 
   @spec create_post(attrs :: map()) :: Repo.modify_result_t(Post.t())
-  def create_post(%{} = attrs), do: Post.create_changeset(attrs) |> Repo.insert()
+  def create_post(%{} = attrs) do
+    with {:ok, post} <- Post.create_changeset(attrs) |> Repo.insert() do
+      {:ok, Repo.preload(post, :user)}
+    end
+  end
 end

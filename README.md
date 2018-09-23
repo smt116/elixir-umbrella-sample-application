@@ -7,6 +7,7 @@
 
 ## Project structure
 
+* `Api` (`apps/api`) - Web API layer
 * `Core` (`apps/core`) - data layer
 
 ## Setup
@@ -23,3 +24,11 @@
   ```bash
   mix core.setup
   ```
+
+1. Start the server and console
+
+  ```bash
+  iex -S mix phx.server
+  ```
+
+1. Access the API under http://localhost:4000.

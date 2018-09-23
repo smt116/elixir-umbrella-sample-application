@@ -13,6 +13,17 @@ defmodule Core.Accounts.User do
 
   @type t :: %__MODULE__{}
 
+  @derive {
+    Poison.Encoder,
+    only: [
+      :email,
+      :first_name,
+      :id,
+      :inserted_at,
+      :last_name,
+      :updated_at
+    ]
+  }
   schema "users" do
     field(:email, :string)
     field(:first_name, :string)

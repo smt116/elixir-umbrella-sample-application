@@ -18,7 +18,7 @@ defmodule SampleApp.MixProject do
     [
       "core.reset": ["ecto.drop", "core.setup"],
       "core.seed": "run apps/core/priv/repo/seeds.exs",
-      "core.setup": ["ecto.create", "ecto.migrate", "core.seed"],
+      "core.setup": ["ecto.create", "ecto.migrate", "core.seed"]
     ]
   end
 end
