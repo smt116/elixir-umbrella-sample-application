@@ -8,6 +8,7 @@ defmodule Core.Accounts.User do
   import Ecto.Changeset
 
   alias __MODULE__
+  alias Core.Feed.Post
   alias Ecto.Changeset
 
   @type t :: %__MODULE__{}
@@ -18,6 +19,8 @@ defmodule Core.Accounts.User do
     field(:last_name, :string)
     field(:password, :string, virtual: true)
     field(:password_hash, :string)
+
+    has_many(:posts, Post)
 
     timestamps()
   end
