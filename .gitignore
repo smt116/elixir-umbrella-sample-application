@@ -19,3 +19,5 @@ erl_crash.dump
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
 
+# Files matching the following pattern may contain sensitive data.
+**/config/*.secret.exs
