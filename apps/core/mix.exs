@@ -10,6 +10,7 @@ defmodule Core.MixProject do
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.7",
+      elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -24,8 +25,14 @@ defmodule Core.MixProject do
 
   defp deps do
     [
+      {:bcrypt_elixir, "~> 0.12"},
+      {:comeonin, "~> 4.0"},
       {:ecto, "~> 2.2"},
       {:postgrex, "~> 0.13"}
     ]
   end
+
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test"]
+  defp elixirc_paths(_), do: ["lib"]
 end
