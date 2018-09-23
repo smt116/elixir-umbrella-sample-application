@@ -17,3 +17,9 @@
   cp apps/core/config/secret.exs.example apps/core/config/dev.secret.exs
   cp apps/core/config/secret.exs.example apps/core/config/test.secret.exs
   ```
+
+1. Setup database:
+
+  ```bash
+  mix core.setup
+  ```
