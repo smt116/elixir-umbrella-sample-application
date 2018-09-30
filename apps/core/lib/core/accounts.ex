@@ -5,6 +5,7 @@ defmodule Core.Accounts do
 
   alias Core.Accounts.User
   alias Core.Repo
+  alias Core.EventRepo
 
   import Ecto.Query
 
@@ -19,13 +20,30 @@ defmodule Core.Accounts do
   def user(id) when is_integer(id), do: Repo.get_record(User, id)
 
   @spec create_user(attrs :: map()) :: Repo.modify_result_t(User.t())
-  def create_user(%{} = attrs), do: User.create_changeset(attrs) |> Repo.insert()
+  def create_user(%{} = attrs) do
+    with {:ok, user} <- User.create_changeset(attrs) |> Repo.insert(),
+         :ok <-
+           EventRepo.save_event(
+             :user_created,
+             {user.id, Map.delete(attrs, "password"), user.inserted_at}
+           ) do
+      {:ok, user}
+    end
+  end
 
   @spec update_user(User.t(), attrs :: map()) :: Repo.modify_result_t(User.t())
   def update_user(%User{} = user, %{} = attrs) do
-    User.update_changeset(user, attrs) |> Repo.update()
+    with {:ok, user} <- User.update_changeset(user, attrs) |> Repo.update(),
+         :ok <- EventRepo.save_event(:user_updated, {user.id, attrs, user.updated_at}) do
+      {:ok, user}
+    end
   end
 
   @spec delete_user(User.t()) :: Repo.modify_result_t(User.t())
-  def delete_user(%User{} = user), do: Repo.delete(user)
+  def delete_user(%User{} = user) do
+    with {:ok, user} <- Repo.delete(user),
+         :ok <- EventRepo.save_event(:user_deleted, {user.id, user.updated_at}) do
+      {:ok, user}
+    end
+  end
 end
