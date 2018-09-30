@@ -10,5 +10,8 @@ defmodule ApiWeb.Router do
 
     resources "/users", UsersController, only: [:index, :show, :create, :update, :delete]
     resources "/posts", PostsController, only: [:index, :create]
+    get "/events", EventsController, :index
+    get "/events/:id", EventsController, :show
+    get "/events/operation/:operation", EventsController, :show
   end
 end

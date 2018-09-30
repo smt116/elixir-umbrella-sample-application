@@ -6,6 +6,7 @@ defmodule Core.Feed do
   alias Core.Accounts.User
   alias Core.Feed.Post
   alias Core.Repo
+  alias Core.EventRepo
 
   import Ecto.Query
 
@@ -20,8 +21,10 @@ defmodule Core.Feed do
 
   @spec create_post(attrs :: map()) :: Repo.modify_result_t(Post.t())
   def create_post(%{} = attrs) do
-    with {:ok, post} <- Post.create_changeset(attrs) |> Repo.insert() do
-      {:ok, Repo.preload(post, :user)}
-    end
+    with {:ok, post} <- Post.create_changeset(attrs) |> Repo.insert(), 
+      post <- Repo.preload(post, :user),
+      :ok <- EventRepo.save_event(:post_created, {post.user_id, post.id, post.text, post.inserted_at}) do
+        {:ok, post}
+      end
   end
 end

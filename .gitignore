@@ -21,3 +21,6 @@ erl_crash.dump
 
 # Files matching the following pattern may contain sensitive data.
 **/config/*.secret.exs
+
+# We don't want to include Mnesia DB
+**/Mnesia*/
